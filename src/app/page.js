@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { useEffect } from 'react';
+
 
 export default function Home() {
   return (
@@ -26,7 +28,7 @@ export default function Home() {
         </motion.h1>
 
         
-        <p className="mt-4 text-lg text-gray-100">
+        <p className="mt-4 text-lg sar text-gray-100">
           I am a passionate developer, musician, and creative problem solver.
         </p>
         <div className="mt-8 flex space-x-4">
