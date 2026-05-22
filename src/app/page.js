@@ -472,7 +472,7 @@ function AboutSection() {
       <div className="max-w-2xl space-y-5">
         <ScrollReveal delay={0.1}>
           <p className="text-base text-zinc-300 leading-7">
-            Computing Science student at the University of Glasgow, currently in my third year.
+            Computing Science student at the University of Glasgow.
             I build software that has to actually work — not demos, not tutorials.
           </p>
         </ScrollReveal>
