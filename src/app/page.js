@@ -26,7 +26,7 @@ const PROJECTS = [
     title: "SleePT",
     subtitle: "AI Chat Agent",
     description:
-      "Real-time AI sleep coaching agent with WebSocket communication, persistent conversation memory, and OpenAI integration.",
+      "A comedic anti-productivity AI chat app. SleePT acts as a sarcastic, passive-aggressive life coach that comforts you into procrastinating — built on WebSockets with real-time streaming responses.",
     tech: ["Next.js", "Express.js", "WebSockets", "MongoDB", "OpenAI API"],
     github: "https://github.com/HiradFakouri/SleePT",
   },
