@@ -52,6 +52,7 @@ const FREELANCE_PROJECTS = [
       "Every lead is visible on a live dashboard, sorted by urgency",
     ],
     stack: ["FastAPI", "Claude API", "Twilio (WhatsApp)", "Supabase", "Next.js"],
+    testimonial: null,
   },
   {
     slug: "docuparse",
@@ -67,6 +68,7 @@ const FREELANCE_PROJECTS = [
       "Generate a polished PDF quote or export to CSV instantly",
     ],
     stack: ["FastAPI", "Claude API (vision)", "Supabase", "Next.js"],
+    testimonial: null,
   },
   {
     slug: "bookflow",
@@ -82,6 +84,7 @@ const FREELANCE_PROJECTS = [
       "Owner dashboard shows upcoming bookings and no-show rates at a glance",
     ],
     stack: ["FastAPI", "APScheduler", "Twilio", "Supabase", "Next.js"],
+    testimonial: null,
   },
   {
     slug: "askyourdocs",
@@ -96,6 +99,7 @@ const FREELANCE_PROJECTS = [
       "If the answer isn't in the documents, it says so clearly instead of making something up",
     ],
     stack: ["FastAPI", "Claude API", "Voyage AI (embeddings)", "Supabase (pgvector)", "Next.js"],
+    testimonial: null,
   },
   {
     slug: "opspulse",
@@ -110,6 +114,42 @@ const FREELANCE_PROJECTS = [
       "Refreshable on demand",
     ],
     stack: ["FastAPI", "Claude API", "Supabase", "Next.js"],
+    testimonial: null,
+  },
+];
+
+const CLIENT_PROJECTS = [
+  {
+    slug: "in4leads",
+    name: "in4leads",
+    headline: "A CRM built for a real client, from scratch",
+    problem:
+      "in4leads is a full CRM system built for a UK construction/trades client, covering contact and company management with secure multi-user access. It was built end-to-end — from initial requirements through to a working, deployed product — using a modern full-stack setup.",
+    bullets: [
+      "Contact and company management tailored to a trades business's workflow",
+      "Secure multi-user access",
+      "Built and iterated directly with a real client through the full product lifecycle",
+    ],
+    stack: ["Next.js", "FastAPI", "Supabase"],
+    testimonial: null,
+  },
+  {
+    slug: "praxis",
+    name: "Praxis",
+    headline: "Admin automation for a private medical practice",
+    problem:
+      "Praxis is a medical practice administration system built for a private clinic, pairing an AI-powered admin agent with a companion dashboard. It handles scheduling logistics and patient communication automation — including appointment reminders and no-show follow-up — giving practice staff a clear operational view without manual admin overhead.",
+    bullets: [
+      "AI-powered admin agent handling scheduling and patient communication tasks",
+      "Automated appointment reminders and no-show follow-up messaging",
+      "Companion dashboard giving staff a real-time operational view",
+      "Built and deployed for a real private medical practice",
+    ],
+    stack: ["Python", "FastAPI", "APScheduler", "Next.js", "PostgreSQL"],
+    testimonial: {
+      text: "I had the pleasure of working with Mr Hirad Fakouri, a highly skilled and professional software engineer, who assisted me in developing a professional medical website. Throughout the project, Hirad was attentive, patient and genuinely interested in understanding my requirements. He listened carefully to my ideas and was also very good at suggesting practical improvements and creative solutions that were helpful, relevant and well aligned with current expectations for a modern professional website. He was thorough, reliable and consistently worked within the agreed timeframe. Tasks were completed efficiently and on time, and communication throughout the project was clear, respectful and professional. I found Hirad to be a very polite, knowledgeable and technically skilled individual with a strong sense of responsibility and attention to detail. His contribution was greatly appreciated, and I would be very happy to recommend him to anyone looking for a dependable and capable software engineer or web developer. I wish Hirad every success in his future endeavours and have no hesitation in recommending him.",
+      author: "Dr Shokouh-Amiri",
+    },
   },
 ];
 
@@ -122,6 +162,7 @@ const SKILLS = [
 const NAV_LINKS = [
   { label: "Projects", href: "#projects" },
   { label: "AI Work", href: "#ai-automation" },
+  { label: "Client Work", href: "#client-work" },
   { label: "Skills", href: "#skills" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
@@ -212,6 +253,14 @@ function ArrowDownIcon({ size = 16 }) {
   );
 }
 
+function QuoteIcon() {
+  return (
+    <svg width="28" height="22" viewBox="0 0 28 22" fill="currentColor" aria-hidden="true">
+      <path d="M0 22V13.364C0 5.455 4.364 1.182 13.09 0l1.456 2.182C10.182 3.09 7.818 5 6.727 7.818c-.545 1.364-.727 2.727-.636 3.818H12V22H0Zm16 0V13.364C16 5.455 20.364 1.182 29.09 0l1.456 2.182C26.182 3.09 23.818 5 22.727 7.818c-.545 1.364-.727 2.727-.636 3.818H28V22H16Z" opacity=".25" />
+    </svg>
+  );
+}
+
 // ─── Navbar ────────────────────────────────────────────────────────────────
 
 function Navbar() {
@@ -250,7 +299,7 @@ function Navbar() {
         >
           HF
         </a>
-        <nav className="hidden sm:flex items-center gap-7">
+        <nav className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -267,7 +316,7 @@ function Navbar() {
   );
 }
 
-// ─── Sections ──────────────────────────────────────────────────────────────
+// ─── Shared section primitives ─────────────────────────────────────────────
 
 function SectionHeading({ label }) {
   return (
@@ -277,6 +326,147 @@ function SectionHeading({ label }) {
     </div>
   );
 }
+
+function CaseStudyVideo({ slug }) {
+  return (
+    <div
+      className="rounded-xl overflow-hidden border"
+      style={{ background: "#000", borderColor: "rgba(255,255,255,0.06)" }}
+    >
+      <video
+        className="w-full block"
+        controls
+        muted
+        playsInline
+        preload="none"
+        poster={`/projects/${slug}/screenshot-1.png`}
+      >
+        <source src={`/projects/${slug}/demo.mp4`} type="video/mp4" />
+      </video>
+    </div>
+  );
+}
+
+function CaseStudyScreenshots({ slug }) {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      {[1, 2, 3].map((n) => (
+        <div
+          key={n}
+          className="rounded-lg overflow-hidden aspect-video"
+          style={{ background: "var(--surface-2)" }}
+        >
+          <img
+            src={`/projects/${slug}/screenshot-${n}.png`}
+            alt={`Screenshot ${n}`}
+            className="w-full h-full object-cover"
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CaseStudyTestimonial({ testimonial }) {
+  return (
+    <div className="px-8 pb-6">
+      <div
+        className="rounded-xl p-6 border"
+        style={{
+          background: "rgba(129,140,248,0.04)",
+          borderColor: "rgba(129,140,248,0.15)",
+        }}
+      >
+        <div className="mb-4" style={{ color: "var(--accent)" }}>
+          <QuoteIcon />
+        </div>
+        <blockquote>
+          <p className="text-sm text-zinc-300 leading-7 mb-4">
+            {testimonial.text}
+          </p>
+          <footer className="text-xs text-zinc-500 font-medium">
+            — {testimonial.author}
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  );
+}
+
+function CaseStudyCard({ project, index }) {
+  const scrollToContact = (e) => {
+    e.preventDefault();
+    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <ScrollReveal delay={0.05}>
+      <article
+        className="rounded-2xl border overflow-hidden"
+        style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
+      >
+        {/* Header */}
+        <div className="px-8 pt-8 pb-6 border-b" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <span className="text-xs font-mono text-zinc-600 shrink-0">0{index + 1}</span>
+            <h3 className="text-xl font-bold text-white">{project.name}</h3>
+            <span className="text-zinc-500 text-sm">— {project.headline}</span>
+          </div>
+        </div>
+
+        {/* Body: copy + video */}
+        <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="space-y-6">
+            <p className="text-sm text-zinc-300 leading-7">{project.problem}</p>
+            <ul className="space-y-3">
+              {project.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-zinc-400 leading-relaxed">
+                  <span
+                    className="mt-2 w-1 h-1 rounded-full shrink-0"
+                    style={{ background: "var(--accent)" }}
+                  />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <CaseStudyVideo slug={project.slug} />
+        </div>
+
+        {/* Screenshots */}
+        <div className="px-8 pb-6">
+          <CaseStudyScreenshots slug={project.slug} />
+        </div>
+
+        {/* Testimonial (if present) */}
+        {project.testimonial && (
+          <CaseStudyTestimonial testimonial={project.testimonial} />
+        )}
+
+        {/* Footer */}
+        <div
+          className="px-8 py-5 border-t flex flex-wrap items-center justify-between gap-4"
+          style={{ borderColor: "rgba(255,255,255,0.05)" }}
+        >
+          <p className="text-xs text-zinc-600">
+            Built with:{" "}
+            <span className="text-zinc-500">{project.stack.join(", ")}</span>
+          </p>
+          <a
+            href="#contact"
+            className="text-xs text-zinc-500 hover:text-indigo-400 transition-colors duration-200"
+            onClick={scrollToContact}
+          >
+            Want to see it live? Get in touch →
+          </a>
+        </div>
+      </article>
+    </ScrollReveal>
+  );
+}
+
+// ─── Sections ──────────────────────────────────────────────────────────────
 
 function HeroSection() {
   const typedText = useTyping(TYPING_PHRASES);
@@ -328,7 +518,7 @@ function HeroSection() {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            Computing Science · University of Glasgow  ·  Software Engineer · UGRacing Driverless
+            Computing Science · University of Glasgow&nbsp;&nbsp;·&nbsp;&nbsp;Software Engineer · UGRacing Driverless
           </motion.p>
 
           <motion.div
@@ -390,7 +580,7 @@ function HeroSection() {
       </div>
 
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 0.6 }}
@@ -422,18 +612,6 @@ function ProjectCard({ project }) {
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-2.5 flex-wrap">
           <h3 className="font-semibold text-white text-base leading-tight">{project.title}</h3>
-          {project.badge && (
-            <span
-              className="text-xs px-2 py-0.5 rounded-full border font-medium"
-              style={{
-                color: "#fbbf24",
-                borderColor: "rgba(251,191,36,0.3)",
-                background: "rgba(251,191,36,0.08)",
-              }}
-            >
-              {project.badge}
-            </span>
-          )}
           {project.subtitle && (
             <span className="text-xs text-zinc-500">{project.subtitle}</span>
           )}
@@ -450,9 +628,7 @@ function ProjectCard({ project }) {
           </a>
         )}
       </div>
-
       <p className="text-sm text-zinc-400 leading-relaxed flex-1">{project.description}</p>
-
       <div className="flex flex-wrap gap-2">
         {project.tech.map((t) => (
           <span
@@ -485,121 +661,6 @@ function ProjectsSection() {
   );
 }
 
-// ─── AI Automation ─────────────────────────────────────────────────────────
-
-function ProjectVideo({ slug }) {
-  const src = `/projects/${slug}/demo.mp4`;
-  const poster = `/projects/${slug}/screenshot-1.png`;
-  return (
-    <div
-      className="rounded-xl overflow-hidden border"
-      style={{ background: "#000", borderColor: "rgba(255,255,255,0.06)" }}
-    >
-      <video
-        className="w-full block"
-        controls
-        muted
-        playsInline
-        preload="none"
-        poster={poster}
-      >
-        <source src={src} type="video/mp4" />
-      </video>
-    </div>
-  );
-}
-
-function ProjectScreenshots({ slug }) {
-  return (
-    <div className="grid grid-cols-3 gap-3">
-      {[1, 2, 3].map((n) => (
-        <div
-          key={n}
-          className="rounded-lg overflow-hidden aspect-video"
-          style={{ background: "var(--surface-2)" }}
-        >
-          <img
-            src={`/projects/${slug}/screenshot-${n}.png`}
-            alt={`Screenshot ${n}`}
-            className="w-full h-full object-cover"
-            onError={(e) => { e.currentTarget.style.display = "none"; }}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function AutomationCaseStudy({ project, index }) {
-  const scrollToContact = (e) => {
-    e.preventDefault();
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <ScrollReveal delay={0.05}>
-      <article
-        className="rounded-2xl border overflow-hidden"
-        style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
-      >
-        {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <span className="text-xs font-mono text-zinc-600 shrink-0">0{index + 1}</span>
-            <h3 className="text-xl font-bold text-white">{project.name}</h3>
-            <span className="text-zinc-500 text-sm">— {project.headline}</span>
-          </div>
-        </div>
-
-        {/* Body: copy + video */}
-        <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Copy */}
-          <div className="space-y-6">
-            <p className="text-sm text-zinc-300 leading-7">{project.problem}</p>
-            <ul className="space-y-3">
-              {project.bullets.map((bullet, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-zinc-400 leading-relaxed">
-                  <span
-                    className="mt-2 w-1 h-1 rounded-full shrink-0"
-                    style={{ background: "var(--accent)" }}
-                  />
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Video */}
-          <ProjectVideo slug={project.slug} />
-        </div>
-
-        {/* Screenshots */}
-        <div className="px-8 pb-6">
-          <ProjectScreenshots slug={project.slug} />
-        </div>
-
-        {/* Footer */}
-        <div
-          className="px-8 py-5 border-t flex flex-wrap items-center justify-between gap-4"
-          style={{ borderColor: "rgba(255,255,255,0.05)" }}
-        >
-          <p className="text-xs text-zinc-600">
-            Built with:{" "}
-            <span className="text-zinc-500">{project.stack.join(", ")}</span>
-          </p>
-          <a
-            href="#contact"
-            className="text-xs text-zinc-500 hover:text-indigo-400 transition-colors duration-200"
-            onClick={scrollToContact}
-          >
-            Want to see it live? Get in touch →
-          </a>
-        </div>
-      </article>
-    </ScrollReveal>
-  );
-}
-
 function AutomationSection() {
   return (
     <section id="ai-automation" className="py-28 max-w-5xl mx-auto px-6">
@@ -614,14 +675,33 @@ function AutomationSection() {
       </ScrollReveal>
       <div className="space-y-6">
         {FREELANCE_PROJECTS.map((project, i) => (
-          <AutomationCaseStudy key={project.slug} project={project} index={i} />
+          <CaseStudyCard key={project.slug} project={project} index={i} />
         ))}
       </div>
     </section>
   );
 }
 
-// ─── Remaining Sections ─────────────────────────────────────────────────────
+function ClientWorkSection() {
+  return (
+    <section id="client-work" className="py-28 max-w-5xl mx-auto px-6">
+      <ScrollReveal>
+        <SectionHeading label="Client Work" />
+      </ScrollReveal>
+      <ScrollReveal delay={0.05}>
+        <p className="text-sm text-zinc-500 mb-12 -mt-8 max-w-xl leading-relaxed">
+          End-to-end software built for real clients — a CRM for a UK trades business and an
+          AI-powered admin system for a private medical practice.
+        </p>
+      </ScrollReveal>
+      <div className="space-y-6">
+        {CLIENT_PROJECTS.map((project, i) => (
+          <CaseStudyCard key={project.slug} project={project} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function SkillsSection() {
   const ref = useRef(null);
@@ -685,8 +765,8 @@ function AboutSection() {
             Software Engineer at{" "}
             <span className="text-white font-medium">UGRacing Driverless</span>, building path
             planning and navigation systems for an autonomous Formula Student race car. On the side,
-            I build AI automation tools for small businesses — lead qualification, document parsing,
-            booking systems, and ops dashboards.
+            I build AI automation tools and full software products for real clients — CRMs, medical
+            practice admin systems, lead qualification agents, and more.
           </p>
         </ScrollReveal>
         <ScrollReveal delay={0.26}>
@@ -777,6 +857,7 @@ export default function Home() {
         <HeroSection />
         <ProjectsSection />
         <AutomationSection />
+        <ClientWorkSection />
         <SkillsSection />
         <AboutSection />
         <ContactSection />
