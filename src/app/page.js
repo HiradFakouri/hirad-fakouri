@@ -7,15 +7,6 @@ import { motion, useInView } from "framer-motion";
 
 const PROJECTS = [
   {
-    title: "SKOPE",
-    subtitle: "Financial SaaS Platform",
-    description:
-      "A fintech SaaS platform in early development, building modern financial tooling for individuals and businesses.",
-    tech: ["Next.js", "Express.js", "MongoDB"],
-    github: null,
-    badge: "Early Stage",
-  },
-  {
     title: "AI Admin Automation Tool",
     description:
       "FastAPI-powered automation tooling that streamlines administrative workflows using AI-driven processing pipelines.",
@@ -46,6 +37,82 @@ const PROJECTS = [
   },
 ];
 
+const FREELANCE_PROJECTS = [
+  {
+    slug: "leadqual",
+    name: "LeadQual",
+    headline: "Never miss a lead again",
+    problem:
+      "Trades and service businesses lose jobs simply because they can't reply to WhatsApp messages fast enough while out on a job. LeadQual sits on the business's WhatsApp number, has a natural conversation with anyone who messages in, and captures a fully qualified lead — job type, urgency, location, contact details — before a human even sees it. Urgent jobs get flagged immediately; the business owner gets pinged the moment a real lead comes through.",
+    bullets: [
+      "Customer messages the business's WhatsApp number",
+      "AI has a natural conversation, checking real-time service availability and pricing rather than guessing",
+      "Structured lead (job type, urgency, location, contact) is automatically logged",
+      "Owner gets an instant notification for urgent jobs",
+      "Every lead is visible on a live dashboard, sorted by urgency",
+    ],
+    stack: ["FastAPI", "Claude API", "Twilio (WhatsApp)", "Supabase", "Next.js"],
+  },
+  {
+    slug: "docuparse",
+    name: "DocuParse",
+    headline: "Turn messy paperwork into clean data",
+    problem:
+      "Small businesses lose hours retyping supplier invoices, receipts, and handwritten job sheets into spreadsheets by hand. DocuParse reads a photo or PDF directly, extracts every line item into structured data, flags anything it's not confident about for a quick human check, and generates a clean, professional PDF quote or CSV export in seconds.",
+    bullets: [
+      "Upload a photo or PDF of any invoice, receipt, or price list",
+      "AI reads it directly and extracts line items — description, quantity, price, total",
+      "Low-confidence items are flagged for review rather than silently guessed",
+      "Review and correct anything before confirming",
+      "Generate a polished PDF quote or export to CSV instantly",
+    ],
+    stack: ["FastAPI", "Claude API (vision)", "Supabase", "Next.js"],
+  },
+  {
+    slug: "bookflow",
+    name: "BookFlow",
+    headline: "Booking and reminders that run themselves",
+    problem:
+      "No-shows are pure lost revenue for any appointment-based business. BookFlow gives customers a simple booking page, sends an instant confirmation, and automatically follows up with reminders before the appointment — cutting no-shows without anyone having to remember to chase people manually.",
+    bullets: [
+      "Customer books a service and time slot on a simple public booking page",
+      "Instant confirmation sent via WhatsApp/SMS",
+      "Automated reminders fire before the appointment, no manual work required",
+      "No-shows are tracked, with automatic win-back follow-up messages",
+      "Owner dashboard shows upcoming bookings and no-show rates at a glance",
+    ],
+    stack: ["FastAPI", "APScheduler", "Twilio", "Supabase", "Next.js"],
+  },
+  {
+    slug: "askyourdocs",
+    name: "AskYourDocs",
+    headline: "Answers sourced only from your own documents",
+    problem:
+      "Business owners and staff waste time digging through policy documents, price lists, and FAQs to answer simple questions. AskYourDocs lets a business upload their own documents and get a chat interface that answers questions using only that material — and, critically, it says so honestly when a question falls outside what's been uploaded, rather than guessing.",
+    bullets: [
+      "Upload policies, price lists, FAQs, or manuals",
+      "Ask a question in plain English",
+      "Answers are retrieved directly from the uploaded documents, with the source cited",
+      "If the answer isn't in the documents, it says so clearly instead of making something up",
+    ],
+    stack: ["FastAPI", "Claude API", "Voyage AI (embeddings)", "Supabase (pgvector)", "Next.js"],
+  },
+  {
+    slug: "opspulse",
+    name: "OpsPulse",
+    headline: "One dashboard that tells you what actually needs attention",
+    problem:
+      "Business owners juggling leads, bookings, and revenue across separate tools end up manually piecing together what's actually going on. OpsPulse pulls it all into one dashboard and writes a short, plain-English weekly summary — highlighting what changed and what's worth acting on, not just restating numbers.",
+    bullets: [
+      "Pulls data from leads, bookings, and revenue automatically",
+      "Computes week-over-week changes",
+      "AI generates a short summary that interprets the data rather than just listing it — including a specific suggested action where relevant",
+      "Refreshable on demand",
+    ],
+    stack: ["FastAPI", "Claude API", "Supabase", "Next.js"],
+  },
+];
+
 const SKILLS = [
   "Python", "JavaScript", "Node.js", "Express.js", "Next.js",
   "FastAPI", "MongoDB", "PostgreSQL", "ROS2", "Git",
@@ -54,6 +121,7 @@ const SKILLS = [
 
 const NAV_LINKS = [
   { label: "Projects", href: "#projects" },
+  { label: "AI Work", href: "#ai-automation" },
   { label: "Skills", href: "#skills" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
@@ -63,7 +131,7 @@ const TYPING_PHRASES = [
   "Building autonomous racing systems.",
   "Shipping production web software.",
   "Experimenting with AI agents.",
-  "Co-founding a fintech startup.",
+  "Building AI tools for real businesses.",
 ];
 
 // ─── Hooks ─────────────────────────────────────────────────────────────────
@@ -182,7 +250,7 @@ function Navbar() {
         >
           HF
         </a>
-        <nav className="hidden sm:flex items-center gap-8">
+        <nav className="hidden sm:flex items-center gap-7">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -215,7 +283,6 @@ function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -261,7 +328,7 @@ function HeroSection() {
               visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
           >
-            Computing Science · University of Glasgow&nbsp;&nbsp;·&nbsp;&nbsp;Software Engineer · UGRacing Driverless
+            Computing Science · University of Glasgow  ·  Software Engineer · UGRacing Driverless
           </motion.p>
 
           <motion.div
@@ -322,7 +389,6 @@ function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         initial={{ opacity: 0 }}
@@ -419,6 +485,144 @@ function ProjectsSection() {
   );
 }
 
+// ─── AI Automation ─────────────────────────────────────────────────────────
+
+function ProjectVideo({ slug }) {
+  const src = `/projects/${slug}/demo.mp4`;
+  const poster = `/projects/${slug}/screenshot-1.png`;
+  return (
+    <div
+      className="rounded-xl overflow-hidden border"
+      style={{ background: "#000", borderColor: "rgba(255,255,255,0.06)" }}
+    >
+      <video
+        className="w-full block"
+        controls
+        muted
+        playsInline
+        preload="none"
+        poster={poster}
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+    </div>
+  );
+}
+
+function ProjectScreenshots({ slug }) {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      {[1, 2, 3].map((n) => (
+        <div
+          key={n}
+          className="rounded-lg overflow-hidden aspect-video"
+          style={{ background: "var(--surface-2)" }}
+        >
+          <img
+            src={`/projects/${slug}/screenshot-${n}.png`}
+            alt={`Screenshot ${n}`}
+            className="w-full h-full object-cover"
+            onError={(e) => { e.currentTarget.style.display = "none"; }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AutomationCaseStudy({ project, index }) {
+  const scrollToContact = (e) => {
+    e.preventDefault();
+    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <ScrollReveal delay={0.05}>
+      <article
+        className="rounded-2xl border overflow-hidden"
+        style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
+      >
+        {/* Header */}
+        <div className="px-8 pt-8 pb-6 border-b" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <span className="text-xs font-mono text-zinc-600 shrink-0">0{index + 1}</span>
+            <h3 className="text-xl font-bold text-white">{project.name}</h3>
+            <span className="text-zinc-500 text-sm">— {project.headline}</span>
+          </div>
+        </div>
+
+        {/* Body: copy + video */}
+        <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Copy */}
+          <div className="space-y-6">
+            <p className="text-sm text-zinc-300 leading-7">{project.problem}</p>
+            <ul className="space-y-3">
+              {project.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-zinc-400 leading-relaxed">
+                  <span
+                    className="mt-2 w-1 h-1 rounded-full shrink-0"
+                    style={{ background: "var(--accent)" }}
+                  />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Video */}
+          <ProjectVideo slug={project.slug} />
+        </div>
+
+        {/* Screenshots */}
+        <div className="px-8 pb-6">
+          <ProjectScreenshots slug={project.slug} />
+        </div>
+
+        {/* Footer */}
+        <div
+          className="px-8 py-5 border-t flex flex-wrap items-center justify-between gap-4"
+          style={{ borderColor: "rgba(255,255,255,0.05)" }}
+        >
+          <p className="text-xs text-zinc-600">
+            Built with:{" "}
+            <span className="text-zinc-500">{project.stack.join(", ")}</span>
+          </p>
+          <a
+            href="#contact"
+            className="text-xs text-zinc-500 hover:text-indigo-400 transition-colors duration-200"
+            onClick={scrollToContact}
+          >
+            Want to see it live? Get in touch →
+          </a>
+        </div>
+      </article>
+    </ScrollReveal>
+  );
+}
+
+function AutomationSection() {
+  return (
+    <section id="ai-automation" className="py-28 max-w-5xl mx-auto px-6">
+      <ScrollReveal>
+        <SectionHeading label="AI Automation" />
+      </ScrollReveal>
+      <ScrollReveal delay={0.05}>
+        <p className="text-sm text-zinc-500 mb-12 -mt-8 max-w-xl leading-relaxed">
+          Freelance AI tools built for real small businesses — WhatsApp lead qualification,
+          document parsing, automated booking, document Q&A, and ops dashboards.
+        </p>
+      </ScrollReveal>
+      <div className="space-y-6">
+        {FREELANCE_PROJECTS.map((project, i) => (
+          <AutomationCaseStudy key={project.slug} project={project} index={i} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Remaining Sections ─────────────────────────────────────────────────────
+
 function SkillsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -480,9 +684,9 @@ function AboutSection() {
           <p className="text-base text-zinc-300 leading-7">
             Software Engineer at{" "}
             <span className="text-white font-medium">UGRacing Driverless</span>, building path
-            planning and navigation systems for an autonomous Formula Student race car. Co-founding{" "}
-            <span className="text-white font-medium">SKOPE</span>, a fintech SaaS startup currently
-            in early development.
+            planning and navigation systems for an autonomous Formula Student race car. On the side,
+            I build AI automation tools for small businesses — lead qualification, document parsing,
+            booking systems, and ops dashboards.
           </p>
         </ScrollReveal>
         <ScrollReveal delay={0.26}>
@@ -572,6 +776,7 @@ export default function Home() {
       >
         <HeroSection />
         <ProjectsSection />
+        <AutomationSection />
         <SkillsSection />
         <AboutSection />
         <ContactSection />
