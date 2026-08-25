@@ -1,181 +1,32 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
-
-// ─── Data ──────────────────────────────────────────────────────────────────
-
-const PROJECTS = [
-  {
-    title: "AI Admin Automation Tool",
-    description:
-      "FastAPI-powered automation tooling that streamlines administrative workflows using AI-driven processing pipelines.",
-    tech: ["Python", "FastAPI"],
-    github: null,
-  },
-  {
-    title: "SleePT",
-    subtitle: "AI Chat Agent",
-    description:
-      "A comedic anti-productivity AI chat app. SleePT acts as a sarcastic, passive-aggressive life coach that comforts you into procrastinating — built on WebSockets with real-time streaming responses.",
-    tech: ["Next.js", "Express.js", "WebSockets", "MongoDB", "OpenAI API"],
-    github: "https://github.com/HiradFakouri/SleePT",
-  },
-  {
-    title: "GUI Image Filtering App",
-    description:
-      "Web-based image filtering tool with a Python backend, supporting real-time transformations powered by Pillow.",
-    tech: ["Next.js", "Express.js", "Python Pillow"],
-    github: "https://github.com/HiradFakouri/filter-webGUI",
-  },
-  {
-    title: "Kobuki Driverless Robot",
-    description:
-      "Path planning and autonomous navigation systems for the Kobuki robot platform, built for the UGRacing Driverless team.",
-    tech: ["Python", "ROS2"],
-    github: null,
-  },
-];
-
-const FREELANCE_PROJECTS = [
-  {
-    slug: "leadqual",
-    name: "LeadQual",
-    headline: "Never miss a lead again",
-    problem:
-      "Trades and service businesses lose jobs simply because they can't reply to WhatsApp messages fast enough while out on a job. LeadQual sits on the business's WhatsApp number, has a natural conversation with anyone who messages in, and captures a fully qualified lead — job type, urgency, location, contact details — before a human even sees it. Urgent jobs get flagged immediately; the business owner gets pinged the moment a real lead comes through.",
-    bullets: [
-      "Customer messages the business's WhatsApp number",
-      "AI has a natural conversation, checking real-time service availability and pricing rather than guessing",
-      "Structured lead (job type, urgency, location, contact) is automatically logged",
-      "Owner gets an instant notification for urgent jobs",
-      "Every lead is visible on a live dashboard, sorted by urgency",
-    ],
-    stack: ["FastAPI", "Claude API", "Twilio (WhatsApp)", "Supabase", "Next.js"],
-    testimonial: null,
-  },
-  {
-    slug: "docuparse",
-    name: "DocuParse",
-    headline: "Turn messy paperwork into clean data",
-    problem:
-      "Small businesses lose hours retyping supplier invoices, receipts, and handwritten job sheets into spreadsheets by hand. DocuParse reads a photo or PDF directly, extracts every line item into structured data, flags anything it's not confident about for a quick human check, and generates a clean, professional PDF quote or CSV export in seconds.",
-    bullets: [
-      "Upload a photo or PDF of any invoice, receipt, or price list",
-      "AI reads it directly and extracts line items — description, quantity, price, total",
-      "Low-confidence items are flagged for review rather than silently guessed",
-      "Review and correct anything before confirming",
-      "Generate a polished PDF quote or export to CSV instantly",
-    ],
-    stack: ["FastAPI", "Claude API (vision)", "Supabase", "Next.js"],
-    testimonial: null,
-  },
-  {
-    slug: "bookflow",
-    name: "BookFlow",
-    headline: "Booking and reminders that run themselves",
-    problem:
-      "No-shows are pure lost revenue for any appointment-based business. BookFlow gives customers a simple booking page, sends an instant confirmation, and automatically follows up with reminders before the appointment — cutting no-shows without anyone having to remember to chase people manually.",
-    bullets: [
-      "Customer books a service and time slot on a simple public booking page",
-      "Instant confirmation sent via WhatsApp/SMS",
-      "Automated reminders fire before the appointment, no manual work required",
-      "No-shows are tracked, with automatic win-back follow-up messages",
-      "Owner dashboard shows upcoming bookings and no-show rates at a glance",
-    ],
-    stack: ["FastAPI", "APScheduler", "Twilio", "Supabase", "Next.js"],
-    testimonial: null,
-  },
-  {
-    slug: "askyourdocs",
-    name: "AskYourDocs",
-    headline: "Answers sourced only from your own documents",
-    problem:
-      "Business owners and staff waste time digging through policy documents, price lists, and FAQs to answer simple questions. AskYourDocs lets a business upload their own documents and get a chat interface that answers questions using only that material — and, critically, it says so honestly when a question falls outside what's been uploaded, rather than guessing.",
-    bullets: [
-      "Upload policies, price lists, FAQs, or manuals",
-      "Ask a question in plain English",
-      "Answers are retrieved directly from the uploaded documents, with the source cited",
-      "If the answer isn't in the documents, it says so clearly instead of making something up",
-    ],
-    stack: ["FastAPI", "Claude API", "Voyage AI (embeddings)", "Supabase (pgvector)", "Next.js"],
-    testimonial: null,
-  },
-  {
-    slug: "opspulse",
-    name: "OpsPulse",
-    headline: "One dashboard that tells you what actually needs attention",
-    problem:
-      "Business owners juggling leads, bookings, and revenue across separate tools end up manually piecing together what's actually going on. OpsPulse pulls it all into one dashboard and writes a short, plain-English weekly summary — highlighting what changed and what's worth acting on, not just restating numbers.",
-    bullets: [
-      "Pulls data from leads, bookings, and revenue automatically",
-      "Computes week-over-week changes",
-      "AI generates a short summary that interprets the data rather than just listing it — including a specific suggested action where relevant",
-      "Refreshable on demand",
-    ],
-    stack: ["FastAPI", "Claude API", "Supabase", "Next.js"],
-    testimonial: null,
-  },
-];
-
-const CLIENT_PROJECTS = [
-  {
-    slug: "in4leads",
-    name: "in4leads",
-    headline: "A CRM built for a real client, from scratch",
-    problem:
-      "in4leads is a full CRM system built for a UK construction/trades client, covering contact and company management with secure multi-user access. It was built end-to-end — from initial requirements through to a working, deployed product — using a modern full-stack setup.",
-    bullets: [
-      "Contact and company management tailored to a trades business's workflow",
-      "Secure multi-user access",
-      "Built and iterated directly with a real client through the full product lifecycle",
-    ],
-    stack: ["Next.js", "FastAPI", "Supabase"],
-    testimonial: null,
-  },
-  {
-    slug: "praxis",
-    name: "Praxis",
-    headline: "Admin automation for a private medical practice",
-    problem:
-      "Praxis is a medical practice administration system built for a private clinic, pairing an AI-powered admin agent with a companion dashboard. It handles scheduling logistics and patient communication automation — including appointment reminders and no-show follow-up — giving practice staff a clear operational view without manual admin overhead.",
-    bullets: [
-      "AI-powered admin agent handling scheduling and patient communication tasks",
-      "Automated appointment reminders and no-show follow-up messaging",
-      "Companion dashboard giving staff a real-time operational view",
-      "Built and deployed for a real private medical practice",
-    ],
-    stack: ["Python", "FastAPI", "APScheduler", "Next.js", "PostgreSQL"],
-    testimonial: {
-      text: "I had the pleasure of working with Mr Hirad Fakouri, a highly skilled and professional software engineer, who assisted me in developing a professional medical website. Throughout the project, Hirad was attentive, patient and genuinely interested in understanding my requirements. He listened carefully to my ideas and was also very good at suggesting practical improvements and creative solutions that were helpful, relevant and well aligned with current expectations for a modern professional website. He was thorough, reliable and consistently worked within the agreed timeframe. Tasks were completed efficiently and on time, and communication throughout the project was clear, respectful and professional. I found Hirad to be a very polite, knowledgeable and technically skilled individual with a strong sense of responsibility and attention to detail. His contribution was greatly appreciated, and I would be very happy to recommend him to anyone looking for a dependable and capable software engineer or web developer. I wish Hirad every success in his future endeavours and have no hesitation in recommending him.",
-      author: "Dr Shokouh-Amiri",
-    },
-  },
-];
-
-const SKILLS = [
-  "Python", "JavaScript", "Node.js", "Express.js", "Next.js",
-  "FastAPI", "MongoDB", "PostgreSQL", "ROS2", "Git",
-  "Tailwind CSS", "SQL", "C", "Rust",
-];
-
-const NAV_LINKS = [
-  { label: "Projects", href: "#projects" },
-  { label: "AI Work", href: "#ai-automation" },
-  { label: "Client Work", href: "#client-work" },
-  { label: "Skills", href: "#skills" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ALL_PROJECTS, HIGHLIGHT_SLUGS, SKILLS } from "./data/projects";
+import {
+  ScrollReveal,
+  SectionHeading,
+  GitHubIcon,
+  LinkedInIcon,
+  ArrowRightIcon,
+} from "./components/site/ui";
 
 const TYPING_PHRASES = [
   "Building autonomous racing systems.",
   "Shipping production web software.",
-  "Experimenting with AI agents.",
   "Building AI tools for real businesses.",
 ];
 
-// ─── Hooks ─────────────────────────────────────────────────────────────────
+const HIGHLIGHTS = HIGHLIGHT_SLUGS.map((slug) => {
+  const project = ALL_PROJECTS.find((p) => p.slug === slug);
+  return {
+    ...project,
+    href: ["leadqual", "docuparse", "bookflow", "askyourdocs", "opspulse"].includes(slug)
+      ? "/ai-automation"
+      : "/client-work",
+  };
+});
 
 function useTyping(phrases, typeSpeed = 70, deleteSpeed = 38, pause = 2200) {
   const [text, setText] = useState("");
@@ -191,18 +42,13 @@ function useTyping(phrases, typeSpeed = 70, deleteSpeed = 38, pause = 2200) {
     }
     const t = setTimeout(() => {
       if (!deleting) {
-        if (text.length < phrase.length) {
-          setText(phrase.slice(0, text.length + 1));
-        } else {
-          setPaused(true);
-        }
+        if (text.length < phrase.length) setText(phrase.slice(0, text.length + 1));
+        else setPaused(true);
+      } else if (text.length > 0) {
+        setText(text.slice(0, -1));
       } else {
-        if (text.length > 0) {
-          setText(text.slice(0, -1));
-        } else {
-          setDeleting(false);
-          setIdx((i) => (i + 1) % phrases.length);
-        }
+        setDeleting(false);
+        setIdx((i) => (i + 1) % phrases.length);
       }
     }, deleting ? deleteSpeed : typeSpeed);
     return () => clearTimeout(t);
@@ -211,268 +57,11 @@ function useTyping(phrases, typeSpeed = 70, deleteSpeed = 38, pause = 2200) {
   return text;
 }
 
-// ─── Atoms ─────────────────────────────────────────────────────────────────
-
-function ScrollReveal({ children, delay = 0, className = "" }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function GitHubIcon({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-    </svg>
-  );
-}
-
-function LinkedInIcon({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  );
-}
-
-function ArrowDownIcon({ size = 16 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 5v14M5 12l7 7 7-7" />
-    </svg>
-  );
-}
-
-function QuoteIcon() {
-  return (
-    <svg width="28" height="22" viewBox="0 0 28 22" fill="currentColor" aria-hidden="true">
-      <path d="M0 22V13.364C0 5.455 4.364 1.182 13.09 0l1.456 2.182C10.182 3.09 7.818 5 6.727 7.818c-.545 1.364-.727 2.727-.636 3.818H12V22H0Zm16 0V13.364C16 5.455 20.364 1.182 29.09 0l1.456 2.182C26.182 3.09 23.818 5 22.727 7.818c-.545 1.364-.727 2.727-.636 3.818H28V22H16Z" opacity=".25" />
-    </svg>
-  );
-}
-
-// ─── Navbar ────────────────────────────────────────────────────────────────
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollTo = (e, href) => {
-    e.preventDefault();
-    if (href === "#") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <motion.header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={{
-        backgroundColor: scrolled ? "rgba(8,8,8,0.88)" : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-      }}
-      initial={{ opacity: 0, y: -12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.1 }}
-    >
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a
-          href="#"
-          className="text-sm font-bold text-white tracking-widest"
-          onClick={(e) => scrollTo(e, "#")}
-        >
-          HF
-        </a>
-        <nav className="hidden md:flex items-center gap-6">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-zinc-400 hover:text-white transition-colors duration-200"
-              onClick={(e) => scrollTo(e, link.href)}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-    </motion.header>
-  );
-}
-
-// ─── Shared section primitives ─────────────────────────────────────────────
-
-function SectionHeading({ label }) {
-  return (
-    <div className="flex items-center gap-5 mb-14">
-      <h2 className="text-2xl font-bold text-white shrink-0">{label}</h2>
-      <div className="h-px flex-1" style={{ background: "var(--border)" }} />
-    </div>
-  );
-}
-
-function CaseStudyVideo({ slug }) {
-  return (
-    <div
-      className="rounded-xl overflow-hidden border"
-      style={{ background: "#000", borderColor: "rgba(255,255,255,0.06)" }}
-    >
-      <video
-        className="w-full block"
-        controls
-        muted
-        playsInline
-        preload="none"
-        poster={`/projects/${slug}/screenshot-1.png`}
-      >
-        <source src={`/projects/${slug}/demo.mp4`} type="video/mp4" />
-      </video>
-    </div>
-  );
-}
-
-function CaseStudyScreenshots({ slug }) {
-  return (
-    <div className="grid grid-cols-3 gap-3">
-      {[1, 2, 3].map((n) => (
-        <div
-          key={n}
-          className="rounded-lg overflow-hidden aspect-video"
-          style={{ background: "var(--surface-2)" }}
-        >
-          <img
-            src={`/projects/${slug}/screenshot-${n}.png`}
-            alt={`Screenshot ${n}`}
-            className="w-full h-full object-cover"
-            onError={(e) => { e.currentTarget.style.display = "none"; }}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function CaseStudyTestimonial({ testimonial }) {
-  return (
-    <div className="px-8 pb-6">
-      <div
-        className="rounded-xl p-6 border"
-        style={{
-          background: "rgba(129,140,248,0.04)",
-          borderColor: "rgba(129,140,248,0.15)",
-        }}
-      >
-        <div className="mb-4" style={{ color: "var(--accent)" }}>
-          <QuoteIcon />
-        </div>
-        <blockquote>
-          <p className="text-sm text-zinc-300 leading-7 mb-4">
-            {testimonial.text}
-          </p>
-          <footer className="text-xs text-zinc-500 font-medium">
-            — {testimonial.author}
-          </footer>
-        </blockquote>
-      </div>
-    </div>
-  );
-}
-
-function CaseStudyCard({ project, index }) {
-  const scrollToContact = (e) => {
-    e.preventDefault();
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <ScrollReveal delay={0.05}>
-      <article
-        className="rounded-2xl border overflow-hidden"
-        style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
-      >
-        {/* Header */}
-        <div className="px-8 pt-8 pb-6 border-b" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <span className="text-xs font-mono text-zinc-600 shrink-0">0{index + 1}</span>
-            <h3 className="text-xl font-bold text-white">{project.name}</h3>
-            <span className="text-zinc-500 text-sm">— {project.headline}</span>
-          </div>
-        </div>
-
-        {/* Body: copy + video */}
-        <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="space-y-6">
-            <p className="text-sm text-zinc-300 leading-7">{project.problem}</p>
-            <ul className="space-y-3">
-              {project.bullets.map((bullet, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-zinc-400 leading-relaxed">
-                  <span
-                    className="mt-2 w-1 h-1 rounded-full shrink-0"
-                    style={{ background: "var(--accent)" }}
-                  />
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <CaseStudyVideo slug={project.slug} />
-        </div>
-
-        {/* Screenshots */}
-        <div className="px-8 pb-6">
-          <CaseStudyScreenshots slug={project.slug} />
-        </div>
-
-        {/* Testimonial (if present) */}
-        {project.testimonial && (
-          <CaseStudyTestimonial testimonial={project.testimonial} />
-        )}
-
-        {/* Footer */}
-        <div
-          className="px-8 py-5 border-t flex flex-wrap items-center justify-between gap-4"
-          style={{ borderColor: "rgba(255,255,255,0.05)" }}
-        >
-          <p className="text-xs text-zinc-600">
-            Built with:{" "}
-            <span className="text-zinc-500">{project.stack.join(", ")}</span>
-          </p>
-          <a
-            href="#contact"
-            className="text-xs text-zinc-500 hover:text-indigo-400 transition-colors duration-200"
-            onClick={scrollToContact}
-          >
-            Want to see it live? Get in touch →
-          </a>
-        </div>
-      </article>
-    </ScrollReveal>
-  );
-}
-
-// ─── Sections ──────────────────────────────────────────────────────────────
-
-function HeroSection() {
+function Hero() {
   const typedText = useTyping(TYPING_PHRASES);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[88vh] flex items-center overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -480,8 +69,7 @@ function HeroSection() {
             "radial-gradient(ellipse 70% 55% at 50% -5%, rgba(99,102,241,0.13) 0%, transparent 70%)",
         }}
       />
-
-      <div className="max-w-5xl mx-auto px-6 w-full pt-24 pb-16">
+      <div className="max-w-5xl mx-auto px-6 w-full pt-28 pb-16">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -489,10 +77,7 @@ function HeroSection() {
           className="max-w-3xl"
         >
           <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 16 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-            }}
+            variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
             className="flex items-center gap-2 mb-6"
           >
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -503,30 +88,21 @@ function HeroSection() {
 
           <motion.h1
             className="text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight tracking-tight mb-5"
-            variants={{
-              hidden: { opacity: 0, y: 22 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.1, 0.25, 1] } },
-            }}
+            variants={{ hidden: { opacity: 0, y: 22 }, visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.25, 0.1, 0.25, 1] } } }}
           >
             Hirad Fakouri
           </motion.h1>
 
           <motion.p
             className="text-sm sm:text-base text-zinc-400 mb-10 leading-relaxed"
-            variants={{
-              hidden: { opacity: 0, y: 14 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-            }}
+            variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
           >
             Computing Science · University of Glasgow&nbsp;&nbsp;·&nbsp;&nbsp;Software Engineer · UGRacing Driverless
           </motion.p>
 
           <motion.div
             className="h-9 mb-12"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { duration: 0.5, delay: 0.1 } },
-            }}
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5, delay: 0.1 } } }}
           >
             <p className="text-xl sm:text-2xl font-light text-white/75">
               {typedText}
@@ -539,330 +115,166 @@ function HeroSection() {
 
           <motion.div
             className="flex flex-wrap items-center gap-5"
-            variants={{
-              hidden: { opacity: 0, y: 12 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-            }}
+            variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
           >
             <a
               href="/cv.pdf"
               download
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm text-white transition-all duration-200 hover:opacity-90"
-              style={{
-                background: "var(--accent)",
-                boxShadow: "0 0 24px rgba(99,102,241,0.35)",
-              }}
+              style={{ background: "var(--accent)", boxShadow: "0 0 24px rgba(99,102,241,0.35)" }}
             >
               Download CV
             </a>
             <div className="flex items-center gap-5">
-              <a
-                href="https://github.com/hiradfakouri"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors duration-200"
-                aria-label="GitHub"
-              >
+              <a href="https://github.com/hiradfakouri" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" aria-label="GitHub">
                 <GitHubIcon size={22} />
               </a>
-              <a
-                href="https://www.linkedin.com/in/hirad-fakouri-78ba032b2/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors duration-200"
-                aria-label="LinkedIn"
-              >
+              <a href="https://www.linkedin.com/in/hirad-fakouri-78ba032b2/" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors" aria-label="LinkedIn">
                 <LinkedInIcon size={22} />
               </a>
             </div>
           </motion.div>
         </motion.div>
       </div>
+    </section>
+  );
+}
 
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 0.6 }}
+function HighlightCard({ project }) {
+  return (
+    <Link href={project.href} className="block h-full">
+      <motion.article
+        className="flex flex-col gap-4 rounded-xl border p-6 h-full"
+        style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
+        whileHover={{
+          y: -4,
+          borderColor: "rgba(129,140,248,0.3)",
+          boxShadow: "0 0 0 1px rgba(129,140,248,0.18), 0 20px 48px rgba(0,0,0,0.55)",
+        }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       >
-        <motion.div
-          className="text-zinc-600"
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDownIcon size={18} />
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-}
-
-function ProjectCard({ project }) {
-  return (
-    <motion.article
-      className="flex flex-col gap-4 rounded-xl border p-6 h-full"
-      style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
-      whileHover={{
-        y: -4,
-        borderColor: "rgba(129,140,248,0.3)",
-        boxShadow: "0 0 0 1px rgba(129,140,248,0.18), 0 20px 48px rgba(0,0,0,0.55)",
-      }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-2.5 flex-wrap">
-          <h3 className="font-semibold text-white text-base leading-tight">{project.title}</h3>
-          {project.subtitle && (
-            <span className="text-xs text-zinc-500">{project.subtitle}</span>
-          )}
-        </div>
-        {project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 text-zinc-500 hover:text-white transition-colors duration-200 mt-0.5"
-            aria-label={`${project.title} on GitHub`}
-          >
-            <GitHubIcon size={17} />
-          </a>
-        )}
-      </div>
-      <p className="text-sm text-zinc-400 leading-relaxed flex-1">{project.description}</p>
-      <div className="flex flex-wrap gap-2">
-        {project.tech.map((t) => (
-          <span
-            key={t}
-            className="text-xs px-2.5 py-1 rounded-md font-medium"
-            style={{ background: "var(--accent-dim)", color: "var(--accent)" }}
-          >
-            {t}
-          </span>
-        ))}
-      </div>
-    </motion.article>
-  );
-}
-
-function ProjectsSection() {
-  return (
-    <section id="projects" className="py-28 max-w-5xl mx-auto px-6">
-      <ScrollReveal>
-        <SectionHeading label="Selected Work" />
-      </ScrollReveal>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {PROJECTS.map((project, i) => (
-          <ScrollReveal key={project.title} delay={i * 0.07}>
-            <ProjectCard project={project} />
-          </ScrollReveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function AutomationSection() {
-  return (
-    <section id="ai-automation" className="py-28 max-w-5xl mx-auto px-6">
-      <ScrollReveal>
-        <SectionHeading label="AI Automation" />
-      </ScrollReveal>
-      <ScrollReveal delay={0.05}>
-        <p className="text-sm text-zinc-500 mb-12 -mt-8 max-w-xl leading-relaxed">
-          Freelance AI tools built for real small businesses — WhatsApp lead qualification,
-          document parsing, automated booking, document Q&A, and ops dashboards.
-        </p>
-      </ScrollReveal>
-      <div className="space-y-6">
-        {FREELANCE_PROJECTS.map((project, i) => (
-          <CaseStudyCard key={project.slug} project={project} index={i} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ClientWorkSection() {
-  return (
-    <section id="client-work" className="py-28 max-w-5xl mx-auto px-6">
-      <ScrollReveal>
-        <SectionHeading label="Client Work" />
-      </ScrollReveal>
-      <ScrollReveal delay={0.05}>
-        <p className="text-sm text-zinc-500 mb-12 -mt-8 max-w-xl leading-relaxed">
-          End-to-end software built for real clients — a CRM for a UK trades business and an
-          AI-powered admin system for a private medical practice.
-        </p>
-      </ScrollReveal>
-      <div className="space-y-6">
-        {CLIENT_PROJECTS.map((project, i) => (
-          <CaseStudyCard key={project.slug} project={project} index={i} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function SkillsSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  return (
-    <section id="skills" className="py-28 max-w-5xl mx-auto px-6">
-      <ScrollReveal>
-        <SectionHeading label="Tech Stack" />
-      </ScrollReveal>
-      <motion.div
-        ref={ref}
-        className="flex flex-wrap gap-3"
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.045 } } }}
-      >
-        {SKILLS.map((skill) => (
-          <motion.span
-            key={skill}
-            className="px-4 py-2 rounded-lg text-sm font-medium border cursor-default"
-            style={{
-              background: "var(--surface)",
-              borderColor: "rgba(255,255,255,0.07)",
-              color: "#d4d4d8",
-            }}
-            variants={{
-              hidden: { opacity: 0, scale: 0.85, y: 8 },
-              visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.3 } },
-            }}
-            whileHover={{
-              borderColor: "rgba(129,140,248,0.4)",
-              color: "var(--accent)",
-              background: "var(--accent-dim)",
-              transition: { duration: 0.15 },
-            }}
-          >
-            {skill}
-          </motion.span>
-        ))}
-      </motion.div>
-    </section>
-  );
-}
-
-function AboutSection() {
-  return (
-    <section id="about" className="py-28 max-w-5xl mx-auto px-6">
-      <ScrollReveal>
-        <SectionHeading label="About" />
-      </ScrollReveal>
-      <div className="max-w-2xl space-y-5">
-        <ScrollReveal delay={0.1}>
-          <p className="text-base text-zinc-300 leading-7">
-            Computing Science student at the University of Glasgow.
-            I build software that has to actually work — not demos, not tutorials.
-          </p>
-        </ScrollReveal>
-        <ScrollReveal delay={0.18}>
-          <p className="text-base text-zinc-300 leading-7">
-            Software Engineer at{" "}
-            <span className="text-white font-medium">UGRacing Driverless</span>, building path
-            planning and navigation systems for an autonomous Formula Student race car. On the side,
-            I build AI automation tools and full software products for real clients — CRMs, medical
-            practice admin systems, lead qualification agents, and more.
-          </p>
-        </ScrollReveal>
-        <ScrollReveal delay={0.26}>
-          <p className="text-base text-zinc-300 leading-7">
-            Most interested in the intersection of real-time systems, AI agents, and developer
-            tooling. Currently working across autonomous navigation, LLM-powered applications, and
-            full-stack product development.
-          </p>
-        </ScrollReveal>
-      </div>
-    </section>
-  );
-}
-
-function ContactSection() {
-  return (
-    <section id="contact" className="py-28 max-w-5xl mx-auto px-6">
-      <ScrollReveal>
-        <SectionHeading label="Contact" />
-      </ScrollReveal>
-      <ScrollReveal delay={0.1}>
-        <div className="max-w-lg">
-          <p className="text-zinc-400 mb-8 text-base leading-relaxed">
-            Open to interesting roles, projects, and conversations. Drop me a line.
-          </p>
-          <div className="space-y-5">
-            <a
-              href="mailto:hiradfakouri@gmail.com"
-              className="group flex items-center gap-3 text-white hover:text-indigo-400 transition-colors duration-200"
+        <h3 className="font-semibold text-white text-base leading-tight">{project.name}</h3>
+        <p className="text-sm text-zinc-400 leading-relaxed flex-1">{project.headline}</p>
+        <div className="flex flex-wrap gap-2">
+          {project.stack.slice(0, 3).map((t) => (
+            <span
+              key={t}
+              className="text-xs px-2.5 py-1 rounded-md font-medium"
+              style={{ background: "var(--accent-dim)", color: "var(--accent)" }}
             >
-              <span
-                className="text-zinc-500 group-hover:text-indigo-400 transition-colors duration-200 font-mono text-sm"
-                aria-hidden="true"
-              >
-                @
-              </span>
-              <span className="font-medium">hiradfakouri@gmail.com</span>
-            </a>
-            <div className="flex items-center gap-6 pt-1">
-              <a
-                href="https://github.com/hiradfakouri"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors duration-200 text-sm"
-              >
-                <GitHubIcon size={15} />
-                <span>GitHub</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/hirad-fakouri-78ba032b2/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors duration-200 text-sm"
-              >
-                <LinkedInIcon size={15} />
-                <span>LinkedIn</span>
-              </a>
-            </div>
-          </div>
+              {t}
+            </span>
+          ))}
         </div>
-      </ScrollReveal>
-    </section>
+      </motion.article>
+    </Link>
   );
 }
 
-function Footer() {
+function WorkGateway({ href, title, blurb }) {
   return (
-    <footer className="border-t" style={{ borderColor: "var(--border)" }}>
-      <div className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-between text-zinc-500 text-sm">
-        <span>Hirad Fakouri</span>
-        <span>© {new Date().getFullYear()}</span>
-      </div>
-    </footer>
+    <Link href={href} className="block">
+      <motion.div
+        className="rounded-xl border p-7 h-full"
+        style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)" }}
+        whileHover={{ y: -3, borderColor: "rgba(129,140,248,0.3)" }}
+        transition={{ duration: 0.2 }}
+      >
+        <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+          {title}
+          <span style={{ color: "var(--accent)" }}><ArrowRightIcon /></span>
+        </h3>
+        <p className="text-sm text-zinc-400 leading-relaxed">{blurb}</p>
+      </motion.div>
+    </Link>
   );
 }
-
-// ─── Page ──────────────────────────────────────────────────────────────────
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-      >
-        <HeroSection />
-        <ProjectsSection />
-        <AutomationSection />
-        <ClientWorkSection />
-        <SkillsSection />
-        <AboutSection />
-        <ContactSection />
-      </motion.main>
-      <Footer />
-    </>
+    <main>
+      <Hero />
+
+      <section className="py-24 max-w-5xl mx-auto px-6">
+        <ScrollReveal>
+          <SectionHeading label="Selected Work" />
+        </ScrollReveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
+          {HIGHLIGHTS.map((project, i) => (
+            <ScrollReveal key={project.slug} delay={i * 0.07}>
+              <HighlightCard project={project} />
+            </ScrollReveal>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ScrollReveal delay={0.05}>
+            <WorkGateway
+              href="/ai-automation"
+              title="AI Automation"
+              blurb="Five AI tools built for small UK service businesses — WhatsApp lead qualification, document parsing, automated booking, document Q&A, and ops reporting. Full case studies with demo videos."
+            />
+          </ScrollReveal>
+          <ScrollReveal delay={0.12}>
+            <WorkGateway
+              href="/client-work"
+              title="Client Work"
+              blurb="Software built for real clients and teams — a CRM for a UK trades business, an AI admin system for a private medical practice, and autonomous racing systems for UGRacing Driverless."
+            />
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="py-20 max-w-5xl mx-auto px-6">
+        <ScrollReveal>
+          <SectionHeading label="Tech Stack" />
+        </ScrollReveal>
+        <ScrollReveal delay={0.06}>
+          <div className="flex flex-wrap gap-3">
+            {SKILLS.map((skill) => (
+              <span
+                key={skill}
+                className="px-4 py-2 rounded-lg text-sm font-medium border"
+                style={{ background: "var(--surface)", borderColor: "rgba(255,255,255,0.07)", color: "#d4d4d8" }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </ScrollReveal>
+      </section>
+
+      <section id="contact" className="py-24 max-w-5xl mx-auto px-6 scroll-mt-24">
+        <ScrollReveal>
+          <SectionHeading label="Contact" />
+        </ScrollReveal>
+        <ScrollReveal delay={0.1}>
+          <div className="max-w-lg">
+            <p className="text-zinc-400 mb-8 text-base leading-relaxed">
+              Open to interesting roles, projects, and conversations. Drop me a line.
+            </p>
+            <div className="space-y-5">
+              <a
+                href="mailto:hiradfakouri@gmail.com"
+                className="group flex items-center gap-3 text-white hover:text-indigo-400 transition-colors"
+              >
+                <span className="text-zinc-500 group-hover:text-indigo-400 transition-colors font-mono text-sm" aria-hidden="true">@</span>
+                <span className="font-medium">hiradfakouri@gmail.com</span>
+              </a>
+              <div className="flex items-center gap-6 pt-1">
+                <a href="https://github.com/hiradfakouri" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm">
+                  <GitHubIcon size={15} />
+                  <span>GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/hirad-fakouri-78ba032b2/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm">
+                  <LinkedInIcon size={15} />
+                  <span>LinkedIn</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
+    </main>
   );
 }

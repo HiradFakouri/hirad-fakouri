@@ -1,0 +1,181 @@
+export const FREELANCE_PROJECTS = [
+  {
+    slug: "leadqual",
+    name: "LeadQual",
+    headline: "Never miss a lead again",
+    problem:
+      "Trades and service businesses lose jobs simply because they can't reply to WhatsApp messages fast enough while out on a job. LeadQual sits on the business's WhatsApp number, has a natural conversation with anyone who messages in, and captures a fully qualified lead — job type, urgency, location, contact details — before a human even sees it. Urgent jobs get flagged immediately; the business owner gets pinged the moment a real lead comes through.",
+    bullets: [
+      "Customer messages the business's WhatsApp number",
+      "AI has a natural conversation, checking real-time service availability and pricing rather than guessing",
+      "Structured lead (job type, urgency, location, contact) is automatically logged",
+      "Owner gets an instant notification for urgent jobs",
+      "Every lead is visible on a live dashboard, sorted by urgency",
+    ],
+    stack: ["FastAPI", "Claude API", "Twilio (WhatsApp)", "Supabase", "Next.js"],
+    video: true,
+    screenshots: 3,
+    testimonial: null,
+  },
+  {
+    slug: "docuparse",
+    name: "DocuParse",
+    headline: "Turn messy paperwork into clean data",
+    problem:
+      "Small businesses lose hours retyping supplier invoices, receipts, and handwritten job sheets into spreadsheets by hand. DocuParse reads a photo or PDF directly, extracts every line item into structured data, flags anything it's not confident about for a quick human check, and generates a clean, professional PDF quote or CSV export in seconds.",
+    bullets: [
+      "Upload a photo or PDF of any invoice, receipt, or price list",
+      "AI reads it directly and extracts line items — description, quantity, price, total",
+      "Low-confidence items are flagged for review rather than silently guessed",
+      "Review and correct anything before confirming",
+      "Generate a polished PDF quote or export to CSV instantly",
+    ],
+    stack: ["FastAPI", "Claude API (vision)", "Supabase", "Next.js"],
+    video: true,
+    screenshots: 3,
+    testimonial: null,
+  },
+  {
+    slug: "bookflow",
+    name: "BookFlow",
+    headline: "Booking and reminders that run themselves",
+    problem:
+      "No-shows are pure lost revenue for any appointment-based business. BookFlow gives customers a simple booking page, sends an instant confirmation, and automatically follows up with reminders before the appointment — cutting no-shows without anyone having to remember to chase people manually.",
+    bullets: [
+      "Customer books a service and time slot on a simple public booking page",
+      "Instant confirmation sent via WhatsApp/SMS",
+      "Automated reminders fire before the appointment, no manual work required",
+      "No-shows are tracked, with automatic win-back follow-up messages",
+      "Owner dashboard shows upcoming bookings and no-show rates at a glance",
+    ],
+    stack: ["FastAPI", "APScheduler", "Twilio", "Supabase", "Next.js"],
+    video: true,
+    screenshots: 3,
+    testimonial: null,
+  },
+  {
+    slug: "askyourdocs",
+    name: "AskYourDocs",
+    headline: "Answers sourced only from your own documents",
+    problem:
+      "Business owners and staff waste time digging through policy documents, price lists, and FAQs to answer simple questions. AskYourDocs lets a business upload their own documents and get a chat interface that answers questions using only that material — and, critically, it says so honestly when a question falls outside what's been uploaded, rather than guessing.",
+    bullets: [
+      "Upload policies, price lists, FAQs, or manuals",
+      "Ask a question in plain English",
+      "Answers are retrieved directly from the uploaded documents, with the source cited",
+      "If the answer isn't in the documents, it says so clearly instead of making something up",
+    ],
+    stack: ["FastAPI", "Claude API", "Voyage AI (embeddings)", "Supabase (pgvector)", "Next.js"],
+    video: true,
+    screenshots: 3,
+    testimonial: null,
+  },
+  {
+    slug: "opspulse",
+    name: "OpsPulse",
+    headline: "One dashboard that tells you what actually needs attention",
+    problem:
+      "Business owners juggling leads, bookings, and revenue across separate tools end up manually piecing together what's actually going on. OpsPulse pulls it all into one dashboard and writes a short, plain-English weekly summary — highlighting what changed and what's worth acting on, not just restating numbers.",
+    bullets: [
+      "Pulls data from leads, bookings, and revenue automatically",
+      "Computes week-over-week changes",
+      "AI generates a short summary that interprets the data rather than just listing it — including a specific suggested action where relevant",
+      "Refreshable on demand",
+    ],
+    stack: ["FastAPI", "Claude API", "Supabase", "Next.js"],
+    video: true,
+    screenshots: 3,
+    testimonial: null,
+  },
+];
+
+export const CLIENT_PROJECTS = [
+  {
+    slug: "in4leads",
+    name: "in4leads",
+    headline: "A CRM built for a real client, from scratch",
+    problem:
+      "in4leads is a full CRM system built for a UK construction/trades client, covering contact and company management with secure multi-user access. It was built end-to-end — from initial requirements through to a working, deployed product — using a modern full-stack setup.",
+    bullets: [
+      "Contact and company management tailored to a trades business's workflow",
+      "Secure multi-user access",
+      "Built and iterated directly with a real client through the full product lifecycle",
+    ],
+    stack: ["Next.js", "FastAPI", "Supabase"],
+    video: false,
+    screenshots: 3,
+    testimonial: null,
+  },
+  {
+    slug: "praxis",
+    name: "Praxis",
+    headline: "Admin automation for a private medical practice",
+    problem:
+      "Praxis is a medical practice administration system built for a private clinic, pairing an AI-powered admin agent with a companion dashboard. It handles scheduling logistics and patient communication automation — including appointment reminders and no-show follow-up — giving practice staff a clear operational view without manual admin overhead.",
+    bullets: [
+      "AI-powered admin agent handling scheduling and patient communication tasks",
+      "Automated appointment reminders and no-show follow-up messaging",
+      "Companion dashboard giving staff a real-time operational view",
+      "Built and deployed for a real private medical practice",
+    ],
+    stack: ["Python", "FastAPI", "APScheduler", "Next.js", "PostgreSQL"],
+    video: false,
+    screenshots: 3,
+    testimonial: {
+      text: "I had the pleasure of working with Mr Hirad Fakouri, a highly skilled and professional software engineer, who assisted me in developing a professional medical website. Throughout the project, Hirad was attentive, patient and genuinely interested in understanding my requirements. He listened carefully to my ideas and was also very good at suggesting practical improvements and creative solutions that were helpful, relevant and well aligned with current expectations for a modern professional website. He was thorough, reliable and consistently worked within the agreed timeframe. Tasks were completed efficiently and on time, and communication throughout the project was clear, respectful and professional. I found Hirad to be a very polite, knowledgeable and technically skilled individual with a strong sense of responsibility and attention to detail. His contribution was greatly appreciated, and I would be very happy to recommend him to anyone looking for a dependable and capable software engineer or web developer. I wish Hirad every success in his future endeavours and have no hesitation in recommending him.",
+      author: "Dr Shokouh-Amiri",
+    },
+  },
+  {
+    slug: "global-velocity-profile",
+    name: "Global Velocity Profile",
+    headline: "Racing line optimization for an autonomous race car",
+    problem:
+      "Built for UGRacing Driverless, the University of Glasgow's autonomous Formula Student team. Given raw cone boundary data from the car's perception system, this computes an optimized racing line and a physics-accurate velocity profile — the target speed at every point on track, based on the car's real aerodynamic and tyre grip limits.",
+    bullets: [
+      "Takes left/right cone boundary data and interpolates smooth track boundaries",
+      "Runs an iterative minimum-curvature optimizer to find a racing line that's faster than the simple centreline",
+      "Computes a physics-based velocity profile using a real tyre model (Pacejka), downforce, and drag, respecting acceleration/braking limits",
+      "Runs both offline against a CSV of cone data and live as a ROS2 node, subscribing to real-time perception data and publishing the path/velocity plan for the car's control system",
+      "Visualizes the centreline vs. optimized racing line side-by-side, colour-coded by speed",
+    ],
+    stack: ["Python", "NumPy", "SciPy", "ROS2", "Matplotlib"],
+    video: false,
+    screenshots: 3,
+    testimonial: null,
+  },
+  {
+    slug: "pitwall",
+    name: "PitWall",
+    headline: "Live telemetry dashboard for an autonomous race car",
+    problem:
+      "Also built for UGRacing Driverless. PitWall streams live sensor data from the car (IMU angle data, with more sensors planned) over MQTT to a real-time web dashboard, so the team can monitor and tune the car's control system live — including adjusting PID controller gains and target setpoints on the fly, without touching code.",
+    bullets: [
+      "Python publisher streams live IMU angle data at up to 100Hz over MQTT",
+      "Real-time scrolling chart on the dashboard shows raw, filtered, and target signals live",
+      "PID gains (Kp, Ki, Kd) and target setpoint can be adjusted directly from the dashboard, updating the car's control system instantly",
+      "Built to swap seamlessly from a mock signal in development to real hardware (Raspberry Pi + IMU) with no changes to the broker or dashboard",
+      "Colour-coded live readouts show at a glance whether the car's control loop is on target",
+    ],
+    stack: ["Next.js", "Recharts", "MQTT.js", "EMQX", "Python (paho-mqtt)"],
+    video: false,
+    screenshots: 3,
+    testimonial: null,
+  },
+];
+
+export const SKILLS = [
+  "Python", "JavaScript", "Node.js", "Express.js", "Next.js",
+  "FastAPI", "MongoDB", "PostgreSQL", "ROS2", "Git",
+  "Tailwind CSS", "SQL", "C", "Rust",
+];
+
+export const NAV_LINKS = [
+  { label: "AI Automation", href: "/ai-automation" },
+  { label: "Client Work", href: "/client-work" },
+  { label: "About", href: "/about" },
+];
+
+export const HIGHLIGHT_SLUGS = ["leadqual", "praxis", "global-velocity-profile"];
+
+export const ALL_PROJECTS = [...FREELANCE_PROJECTS, ...CLIENT_PROJECTS];
