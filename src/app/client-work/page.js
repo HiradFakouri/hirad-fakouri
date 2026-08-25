@@ -14,9 +14,9 @@ export default function ClientWorkPage() {
       </ScrollReveal>
       <ScrollReveal delay={0.06}>
         <p className="text-base text-zinc-400 leading-7 max-w-2xl mb-16">
-          Software built for real clients and teams — a CRM for a UK construction and trades
-          business, an AI-powered admin system for a private medical practice, and two systems for
-          UGRacing Driverless, the University of Glasgow&apos;s autonomous Formula Student team.
+          Software built end-to-end for real clients — a CRM for a UK construction and trades
+          business, and an AI-powered admin system for a private medical practice. Both were built
+          from initial requirements through to a deployed, working product.
         </p>
       </ScrollReveal>
 

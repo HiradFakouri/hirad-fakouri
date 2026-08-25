@@ -18,14 +18,11 @@ const TYPING_PHRASES = [
   "Building AI tools for real businesses.",
 ];
 
+const AI_SLUGS = ["leadqual", "docuparse", "bookflow", "askyourdocs", "opspulse"];
+
 const HIGHLIGHTS = HIGHLIGHT_SLUGS.map((slug) => {
   const project = ALL_PROJECTS.find((p) => p.slug === slug);
-  return {
-    ...project,
-    href: ["leadqual", "docuparse", "bookflow", "askyourdocs", "opspulse"].includes(slug)
-      ? "/ai-automation"
-      : "/client-work",
-  };
+  return { ...project, href: AI_SLUGS.includes(slug) ? "/ai-automation" : "/client-work" };
 });
 
 function useTyping(phrases, typeSpeed = 70, deleteSpeed = 38, pause = 2200) {
@@ -207,19 +204,26 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <ScrollReveal delay={0.05}>
             <WorkGateway
               href="/ai-automation"
               title="AI Automation"
-              blurb="Five AI tools built for small UK service businesses — WhatsApp lead qualification, document parsing, automated booking, document Q&A, and ops reporting. Full case studies with demo videos."
+              blurb="Five AI tools built for small UK service businesses — lead qualification, document parsing, automated booking, document Q&A, and ops reporting. Full case studies with demo videos."
             />
           </ScrollReveal>
           <ScrollReveal delay={0.12}>
             <WorkGateway
               href="/client-work"
               title="Client Work"
-              blurb="Software built for real clients and teams — a CRM for a UK trades business, an AI admin system for a private medical practice, and autonomous racing systems for UGRacing Driverless."
+              blurb="Software built end-to-end for real clients — a CRM for a UK construction and trades business, and an AI-powered admin system for a private medical practice."
+            />
+          </ScrollReveal>
+          <ScrollReveal delay={0.19}>
+            <WorkGateway
+              href="/other-projects"
+              title="Other Projects"
+              blurb="Autonomous racing systems for UGRacing Driverless, an anti-productivity chat app, and a handful of smaller tools and games."
             />
           </ScrollReveal>
         </div>
