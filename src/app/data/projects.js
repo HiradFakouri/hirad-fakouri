@@ -126,41 +126,122 @@ export const CLIENT_PROJECTS = [
       author: "Dr Shokouh-Amiri",
     },
   },
+];
+
+export const OTHER_PROJECTS = [
   {
-    slug: "global-velocity-profile",
-    name: "Global Velocity Profile",
-    headline: "Racing line optimization for an autonomous race car",
-    problem:
-      "Built for UGRacing Driverless, the University of Glasgow's autonomous Formula Student team. Given raw cone boundary data from the car's perception system, this computes an optimized racing line and a physics-accurate velocity profile — the target speed at every point on track, based on the car's real aerodynamic and tyre grip limits.",
-    bullets: [
-      "Takes left/right cone boundary data and interpolates smooth track boundaries",
-      "Runs an iterative minimum-curvature optimizer to find a racing line that's faster than the simple centreline",
-      "Computes a physics-based velocity profile using a real tyre model (Pacejka), downforce, and drag, respecting acceleration/braking limits",
-      "Runs both offline against a CSV of cone data and live as a ROS2 node, subscribing to real-time perception data and publishing the path/velocity plan for the car's control system",
-      "Visualizes the centreline vs. optimized racing line side-by-side, colour-coded by speed",
-    ],
-    stack: ["Python", "NumPy", "SciPy", "ROS2", "Matplotlib"],
-    video: false,
-    screenshots: 3,
-    testimonial: null,
+    title: "AI Admin Automation Tool",
+    description:
+      "FastAPI-powered automation tooling that streamlines administrative workflows using AI-driven processing pipelines.",
+    tech: ["Python", "FastAPI"],
+    github: null,
+    images: [],
   },
   {
-    slug: "pitwall",
-    name: "PitWall",
-    headline: "Live telemetry dashboard for an autonomous race car",
-    problem:
-      "Also built for UGRacing Driverless. PitWall streams live sensor data from the car (IMU angle data, with more sensors planned) over MQTT to a real-time web dashboard, so the team can monitor and tune the car's control system live — including adjusting PID controller gains and target setpoints on the fly, without touching code.",
-    bullets: [
-      "Python publisher streams live IMU angle data at up to 100Hz over MQTT",
-      "Real-time scrolling chart on the dashboard shows raw, filtered, and target signals live",
-      "PID gains (Kp, Ki, Kd) and target setpoint can be adjusted directly from the dashboard, updating the car's control system instantly",
-      "Built to swap seamlessly from a mock signal in development to real hardware (Raspberry Pi + IMU) with no changes to the broker or dashboard",
-      "Colour-coded live readouts show at a glance whether the car's control loop is on target",
+    title: "SleePT",
+    subtitle: "AI Chat Agent",
+    description:
+      "A comedic anti-productivity AI chat app. SleePT acts as a sarcastic, passive-aggressive life coach that comforts you into procrastinating — built on WebSockets with real-time streaming responses.",
+    tech: ["Next.js", "Express.js", "WebSockets", "MongoDB", "OpenAI API"],
+    github: "https://github.com/HiradFakouri/SleePT",
+    images: [],
+  },
+  {
+    title: "Kobuki Driverless Robot",
+    description:
+      "Path planning and autonomous navigation systems for the Kobuki robot platform, built for the UGRacing Driverless team.",
+    tech: ["Python", "ROS2"],
+    github: null,
+    images: [],
+  },
+  {
+    title: "Global Velocity Profile",
+    description:
+      "Racing line optimization and physics-accurate velocity profiling for UGRacing Driverless's autonomous race car — computes an optimal racing line from cone boundary data and a real-time velocity plan using an actual tyre/aero model. Runs as a ROS2 node.",
+    tech: ["Python", "NumPy", "SciPy", "ROS2"],
+    github: null,
+    images: [],
+  },
+  {
+    title: "PitWall",
+    description:
+      "Real-time telemetry dashboard for UGRacing Driverless, streaming live car sensor data over MQTT to a live web dashboard with adjustable PID controller gains and setpoints.",
+    tech: ["Next.js", "Recharts", "MQTT.js", "EMQX", "Python"],
+    github: null,
+    images: [],
+  },
+  {
+    title: "GUI Image Filtering App",
+    description:
+      "Web-based image filtering tool with a Python backend, supporting real-time transformations powered by Pillow.",
+    tech: ["Next.js", "Express.js", "Python Pillow"],
+    github: "https://github.com/HiradFakouri/filter-webGUI",
+    images: [
+      "/images/filterGUI/project-one-1.png",
+      "/images/filterGUI/project-one-2.png",
+      "/images/filterGUI/project-one-3.png",
     ],
-    stack: ["Next.js", "Recharts", "MQTT.js", "EMQX", "Python (paho-mqtt)"],
-    video: false,
-    screenshots: 3,
-    testimonial: null,
+  },
+  {
+    title: "Tic Tac Toe GUI",
+    description:
+      "A simple implementation of the classic Tic Tac Toe game, designed for two players or single-player mode with a basic AI opponent. Built for fun and learning, this project combines fundamental programming concepts with a user-friendly interface.",
+    tech: [],
+    github: "https://github.com/HiradFakouri/tictactoe2.0/tree/main",
+    images: [
+      "/images/Tic Tac Toe/project-two-1.png",
+      "/images/Tic Tac Toe/project-two-2.png",
+      "/images/Tic Tac Toe/project-two-3.png",
+    ],
+  },
+  {
+    title: "TodoApp",
+    description:
+      "A simple and efficient Todo Application built with Flask, designed to help you manage your tasks effectively. This app features user authentication for secure access and stores data persistently using MongoDB.",
+    tech: [],
+    github: "https://github.com/HiradFakouri/TodoApp",
+    images: [
+      "/images/TodoApp/project-three-1.png",
+      "/images/TodoApp/project-three-2.png",
+    ],
+  },
+  {
+    title: "Timer",
+    description:
+      "A sleek and customizable Timer Application built with Next.js, designed for productivity and fun. This app features custom time settings, preset easy times, pause/resume functionality, and a delightful tune when the timer ends.",
+    tech: [],
+    github: "https://github.com/HiradFakouri/TodoApp",
+    images: [
+      "/images/Timer/project-four-1.png",
+      "/images/Timer/project-four-2.png",
+      "/images/Timer/project-four-3.png",
+      "/images/Timer/project-four-4.png",
+    ],
+  },
+  {
+    title: "Internal and External Stakeholder Quiz Game",
+    description:
+      "A fun and interactive Quiz Game designed to help users learn about internal and external stakeholders in a business context. Built for National 5 Business Management",
+    tech: [],
+    github: null,
+    images: [
+      "/images/IandE/project-five-1.png",
+      "/images/IandE/project-five-2.png",
+      "/images/IandE/project-five-3.png",
+      "/images/IandE/project-five-4.png",
+    ],
+  },
+  {
+    title: "Calculator GUI",
+    description:
+      "A user-friendly Graphical User Interface (GUI) Calculator designed for simple and efficient arithmetic operations. Built as a fun and educational project, this calculator provides all the basic functionalities with a sleek, intuitive interface.",
+    tech: [],
+    github: "https://github.com/HiradFakouri/GUIcalculator/",
+    images: [
+      "/images/Calculator/project-six-1.png",
+      "/images/Calculator/project-six-2.png",
+      "/images/Calculator/project-six-3.png",
+    ],
   },
 ];
 
@@ -173,9 +254,10 @@ export const SKILLS = [
 export const NAV_LINKS = [
   { label: "AI Automation", href: "/ai-automation" },
   { label: "Client Work", href: "/client-work" },
+  { label: "Other Projects", href: "/other-projects" },
   { label: "About", href: "/about" },
 ];
 
-export const HIGHLIGHT_SLUGS = ["leadqual", "praxis", "global-velocity-profile"];
+export const HIGHLIGHT_SLUGS = ["leadqual", "praxis", "in4leads"];
 
 export const ALL_PROJECTS = [...FREELANCE_PROJECTS, ...CLIENT_PROJECTS];
