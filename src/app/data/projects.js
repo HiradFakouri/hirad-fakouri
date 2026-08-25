@@ -84,7 +84,7 @@ export const FREELANCE_PROJECTS = [
     ],
     stack: ["FastAPI", "Claude API", "Supabase", "Next.js"],
     video: true,
-    screenshots: 3,
+    screenshots: 2,
     testimonial: null,
   },
 ];
